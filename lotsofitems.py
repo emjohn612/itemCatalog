@@ -78,4 +78,4 @@ session.commit()
 
 
 
-print "added menu items!"
+print "added room items!"
