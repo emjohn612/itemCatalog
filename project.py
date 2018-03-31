@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Room, RoomItem, User
+from database_setup import Base, Category, CategoryItem, User
 from flask import session as login_session
 import random
 import string
@@ -21,74 +21,129 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-# Show all rooms
+# Show all category's
 
 
 @app.route('/')
-@app.route('/rooms/')
-def showRooms():
-    rooms = session.query(Room).order_by(asc(Room.name))
-    return render_template('rooms.html', rooms = rooms)
+@app.route('/categorys/')
+def showCategorys():
+    categorys = session.query(Category).order_by(asc(Category.name))
+    return render_template('categorys.html', categorys = categorys)
 
-# New room
-
-
-@app.route('/room/new/', methods=['GET', 'POST'])
-def newRoom():
-    return "ok"
+# New category
 
 
-# Edit room
+@app.route('/category/new/', methods=['GET', 'POST'])
+def newCategory():
+    if request.method == 'POST':
+        newCategory = Category(
+            name=request.form['name'])
+        session.add(newCategory)
+        flash('New Category "%s" Successfully Created' % newCategory.name)
+        session.commit()
+        return redirect(url_for('showCategorys'))
+    else:
+        return render_template('newCategory.html')
 
 
-@app.route('/room/<int:room_id>/edit/', methods=['GET', 'POST'])
-def editRoom(room_id):
-    return "ok"
+# Edit category
 
 
-# Delete room
+@app.route('/category/<int:category_id>/edit/', methods=['GET', 'POST'])
+def editCategory(category_id):
+    editedCategory = session.query(
+        Category).filter_by(id=category_id).one()
+    if request.method == 'POST':
+        if request.form['name']:
+            editedCategory.name = request.form['name']
+            flash('Category Successfully Edited %s' % editedCategory.name)
+            return redirect(url_for('showCategorys'))
+    else:
+        return render_template('editCategory.html', category=editedCategory)
 
 
-@app.route('/room/<int:room_id>/delete/', methods=['GET', 'POST'])
-def deleteRoom(room_id):
-    return "ok"
+# Delete catagory
 
 
-# Show room items
+@app.route('/category/<int:category_id>/delete/', methods=['GET', 'POST'])
+def deleteCategory(category_id):
+    categoryToDelete = session.query(
+        Category).filter_by(id=category_id).one()
+    if request.method == 'POST':
+        session.delete(categoryToDelete)
+        flash('"%s" Successfully Deleted' % categoryToDelete.name)
+        session.commit()
+        return redirect(url_for('showCategorys', category_id=category_id))
+    else:
+        return render_template('deleteCategory.html', category=categoryToDelete)
 
 
-@app.route('/room/<int:room_id>/')
-@app.route('/room/<int:room_id>/items/')
-def showItems(room_id):
-    room = session.query(Room).filter_by(id=room_id).one()
-    creator = getUserInfo(room.user_id)
-    items = session.query(RoomItem).filter_by(
-        room_id=room_id).all()
-    return render_template('roomitems.html', items = items, room = room, creator = creator)
+
+# Show category items
 
 
-# Create a new room item
+@app.route('/category/<int:category_id>/')
+@app.route('/category/<int:category_id>/items/')
+def showItems(category_id):
+    category = session.query(Category).filter_by(id=category_id).one()
+    #creator = getUserInfo(category.user_id)
+    items = session.query(CategoryItem).filter_by(
+        category_id=category_id).all()
+    return render_template('categoryitems.html', items = items, category = category)
 
 
-@app.route('/room/<int:room_id>/items/new/', methods=['GET', 'POST'])
-def newRoomItem(room_id):
-    return "ok"
+# Create a new category item
 
 
-# Edit a room item
+@app.route('/category/<int:category_id>/items/new/', methods=['GET', 'POST'])
+def newCategoryItem(category_id):
+    category = session.query(Category).filter_by(id=category_id).one()
+    if request.method == 'POST':
+        newItem = CategoryItem(name=request.form['name'], description=request.form['description'], category_id=category_id)
+        session.add(newItem)
+        session.commit()
+        flash('New item "%s" Successfully Created for %s' % (newItem.name, category.name))
+        return redirect(url_for('showItems', category_id=category_id))
+    else:
+        return render_template('newCategoryItem.html',category = category, category_id=category_id)
 
 
-@app.route('/room/<int:room_id>/items/<int:item_id>/edit', methods=['GET', 'POST'])
-def editRoomItem(room_id, item_id):
-    return "ok"
+
+# Edit category item
 
 
-# Delete a menu item
+@app.route('/category/<int:category_id>/items/<int:item_id>/edit', methods=['GET', 'POST'])
+def editCategoryItem(category_id, item_id):
+    editedItem = session.query(CategoryItem).filter_by(id=item_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
+    if request.method == 'POST':
+        if request.form['name']:
+            editedItem.name = request.form['name']
+        if request.form['description']:
+            editedItem.description = request.form['description']
+        session.add(editedItem)
+        session.commit()
+        flash('Category Item Successfully Edited')
+        return redirect(url_for('showItems', category_id=category_id))
+    else:
+        return render_template('editCategoryItem.html', category_id=category_id,
+         item_id=item_id, item=editedItem, category=category)
 
 
-@app.route('/room/<int:room_id>/items/<int:item_id>/delete', methods=['GET', 'POST'])
-def deleteRoomItem(room_id, item_id):
-    return "ok"
+# Delete category item
+
+
+@app.route('/category/<int:category_id>/items/<int:item_id>/delete', methods=['GET', 'POST'])
+def deleteCategoryItem(category_id, item_id):
+    category = session.query(Category).filter_by(id=category_id).one()
+    itemToDelete = session.query(CategoryItem).filter_by(id=item_id).one()
+    if request.method == 'POST':
+        session.delete(itemToDelete)
+        session.commit()
+        flash('Category Item "%s" Successfully Deleted for %s' % (itemToDelete.name, category.name))
+        return redirect(url_for('showItems', category_id=category_id, category=category))
+    else:
+        return render_template('deleteCategoryItem.html', item=itemToDelete)
 
 
 def getUserInfo(user_id):
