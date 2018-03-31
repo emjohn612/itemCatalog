@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from database_setup import Room, Base, RoomItem, User
+from database_setup import Category, Base, CategoryItem, User
 
 engine = create_engine('sqlite:///itemCatalog.db')
 # Bind the engine to the metadata of the Base class so that the
@@ -25,57 +25,57 @@ User1 = User(name="Eric Johnston", email="eric.j294@gmail.com",
 session.add(User1)
 session.commit()
 
-# Kitchen
-room1 = Room(user_id=1, name="Kitchen")
+# Category1
+category1 = Category(user_id=1, name="Snowboarding")
 
-session.add(room1)
+session.add(category1)
 session.commit()
 
-roomItem1 = RoomItem(user_id=1, name="Refrigerator", description="Keep food/liquids cold and fresh",
-                     room=room1)
+categoryItem1 = CategoryItem(user_id=1, name="Goggles", description="Protect your eyes from the sun and snow while riding down the slopes.",
+                     category=category1)
 
-session.add(roomItem1)
-session.commit()
-
-
-roomItem2 = RoomItem(user_id=1, name="Dish-washer", description="Clean and dry dirty dishes",
-                     room=room1)
-
-session.add(roomItem2)
-session.commit()
-
-roomItem3 = RoomItem(user_id=1, name="Coffee Maker", description="Make fresh coffee in a flash",
-                     room=room1)
-
-session.add(roomItem3)
+session.add(categoryItem1)
 session.commit()
 
 
-# Living Room
-room2 = Room(user_id=1, name="Living Room")
+categoryItem2 = CategoryItem(user_id=1, name="Jacket", description="Keep warm with a well insulated coat.",
+                     category=category1)
 
-session.add(room2)
+session.add(categoryItem2)
 session.commit()
 
-roomItem1 = RoomItem(user_id=1, name="Sofa", description="A nice play to sit and relax.",
-                     room=room2)
+categoryItem3 = CategoryItem(user_id=1, name="Snowboard", description="Several types; freestyle, freeride, all terrain, camber, rocker, etc. It is best to find a board that suits your style of riding.",
+                     category=category1)
 
-session.add(roomItem1)
-session.commit()
-
-
-roomItem2 = RoomItem(user_id=1, name="Television", description="Watch all of your favorite shows and movies.",
-                     room=room2)
-
-session.add(roomItem2)
-session.commit()
-
-roomItem3 = RoomItem(user_id=1, name="Coffee Table", description="Prop up your feet or use it for what it's really meant for.",
-                     room=room2)
-
-session.add(roomItem3)
+session.add(categoryItem3)
 session.commit()
 
 
+# Category2
+category2 = Category(user_id=1, name="Soccer")
 
-print "added room items!"
+session.add(category2)
+session.commit()
+
+categoryItem1 = CategoryItem(user_id=1, name="Soccer Ball", description="Different types of soccer balls; turf, trainging ball, and a match ball. ",
+                     category=category2)
+
+session.add(categoryItem1)
+session.commit()
+
+
+categoryItem2 = CategoryItem(user_id=1, name="Shin Guards", description="Protect your shins from unwanted contact.",
+                     category=category2)
+
+session.add(categoryItem2)
+session.commit()
+
+categoryItem3 = CategoryItem(user_id=1, name="Cleats", description="A well contructed cleat can go a long way. Better ball controll, more explosive power/speed, and flexability.",
+                     category=category2)
+
+session.add(categoryItem3)
+session.commit()
+
+
+
+print "added category items!"
