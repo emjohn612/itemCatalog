@@ -24,9 +24,8 @@ class Category(Base):
     @property
     def serialize(self):
        return {
-           'name'         : self.name,
-           'id'           : self.id,
-           'user_id'      : self.user_id
+           'name': self.name,
+           'id': self.id,
        }
 
 class CategoryItem(Base):
@@ -45,9 +44,9 @@ class CategoryItem(Base):
     @property
     def serialize(self):
        return {
-           'name'       : self.name,
+           'name': self.name,
            'description': self.description,
-           'id'         : self.id
+           'id': self.id,
        }
 
 
