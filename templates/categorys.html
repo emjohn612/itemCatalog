@@ -10,7 +10,7 @@
 		<div class="col-md-12"></div>
 	</div>
 	<div class="row banner main">
-		<div class="col-md-12 padding-none">
+		<div class="col-md-11 col-md-offset-1 padding-none">
 			<h1>Item List</h1>
 		</div>
 	</div>
@@ -30,6 +30,7 @@
 </div>
 
 <div class="row padding-top padding-bottom">
+	<div class="col-md-1"></div>
 	<div class="col-md-10 padding-none">
 		<a href="{{url_for('newCategory')}}">
 			<button class="btn btn-default" id="new-category">
@@ -37,16 +38,17 @@
 			</button>
 		</a>
 	</div>
-	<div class="col-md-2"></div>
+	<div class="col-md-1"></div>
 </div>
 {% for category in categorys %}
 	<div class="row">
+		<div class="col-md-1"></div>
 		<div class="col-md-2 category-list">
 			<a href = "{{url_for('showItems', category_id = category.id)}}">
 				<h3>{{category.name}}</h3>
 			</a>
 		</div>
-			<div class="col-md-10"></div>
+			<div class="col-md-9"></div>
 	</div>
 	{% endfor %}
 {% endblock %}

@@ -8,7 +8,7 @@
 		<div class="col-md-12 padding-none text-center">
 			<h1>{{ category.name }}</h1>
 			<figure class="creator">
-				<img src="{{ url_for('static', filename='blank_user.gif') }}">
+				<img src="{{creator.picture}}" style = "width: 150px; height: 150px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;">
 				<figcaption>{{category.user.name}}</figcaption>
 			</figure>
 		</div>
