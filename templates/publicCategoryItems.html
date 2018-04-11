@@ -1,47 +1,39 @@
-{% extends "main.html" %}
-{% block content %}
-{% include "header.html" %}
-	<div class="row divider green">
-		<div class="col-md-12"></div>
+{% extends "main.html" %} {% block content %} {% include "header.html" %}
+<div class="row">
+	<div class="col-md-12 jumbotron">
+		<h1>Catalog App</h1>
 	</div>
-	<div class="row banner menu">
-		<div class="col-md-11 col-md-offset-1 padding-none">
-			<h1>{{ category.name }}
-			<figure class="creator">
-				<img src="{{creator.picture}}" style = "width: 150px; height: 150px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;">
-				<figcaption>{{category.user.name}}</figcaption>
-			</figure>
-			</h1>
-
-		</div>
+</div>
+<div class="row">
+	<div class="col-md-12 text-center">
+		<h1>{{ category.name }}</h1>
+		<figure class="creator">
+			<img src="{{creator.picture}}">
+			<figcaption>{{category.user.name}}</figcaption>
+		</figure>
 	</div>
-
-<div class = 'flash'>
-		      {% with messages = get_flashed_messages() %}
-      {% if messages %}
-
-        <ul>
-        {% for message in messages %}
-            <li> <strong> {{ message }} </strong> </li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-    {% endwith %}
-
+</div>
+<div class="row">
+	<div class='flash col-md-12'>
+		{% with messages = get_flashed_messages() %} {% if messages %}
+		<ul>
+			{% for message in messages %}
+			<li> <strong> {{ message }} </strong> </li>
+			{% endfor %}
+		</ul>
+		{% endif %} {% endwith %}
+	</div>
 </div>
 
-	{% if items !=[] %}
-		<div class="row">
-			<div class="col-md-1"></div>
-			<div class="col-md-3">
-				<h2>Items in Category</h2>
-					{% for i in items %}
-						<div class="category-item">
-							<h3>{{i.name}}</h3>
-							<p>{{i.description}}</p>
-						</div>
-					{% endfor %}
-			</div>
+{% if items !=[] %}
+<div class="row border">
+	<div class="col-md-11 col-md-offset-1">
+		<h2>Items in Category</h2> {% for i in items %}
+		<div class="category-item">
+			<h3>{{i.name}}</h3>
+			<p>{{i.description}}</p>
 		</div>
-	{% endif %}
-{% endblock %}
+		{% endfor %}
+	</div>
+</div>
+{% endif %} {% endblock %}
