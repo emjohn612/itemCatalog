@@ -1,0 +1,107 @@
+* {
+  font-family: "Helvetica Neue Bold", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+}
+
+h1 {
+  text-transform: capitalize;
+}
+
+h2 {
+  font-family: "Arial Black", monospace, sans-serif;
+  text-decoration: underline;
+}
+
+h3 {
+  padding: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-transform: capitalize;
+}
+
+h4 {
+  padding: 10px;
+}
+
+figcaption {
+  padding: 10px;
+  text-transform: uppercase;
+}
+
+p {
+  text-transform: capitalize;
+}
+
+.border {
+  border: solid;
+  border-color: #000000;
+  padding: 10px;
+  margin: 5px;
+}
+
+.creator img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.jumbotron {
+  background-image: url("/static/rawpixel-com-567028-unsplash.jpg");
+  background-size: cover;
+  color: white;
+  text-transform: uppercase;
+  font-family: "Comic Sans MS", "Arial Black", Arial;
+}
+
+.top-menu {
+  padding: 10px;
+}
+
+.trans {
+  background-color: #cfcfcf;
+  color: black;
+  transition: 0.4s;
+  text-transform: capitalize;
+}
+
+.trans:hover {
+  background-color: #661731;
+  color: white;
+  border-color: black;
+  box-shadow: 2px 5px;
+}
+
+.top-menu a {
+  margin-bottom: 0;
+  line-height: 16px;
+  font-size: 16px;
+  color: #661731;
+  font-weight: 400;
+}
+
+.banner.menu {
+  background-color: #E1E17F;
+}
+
+.padding {
+  padding: 10px;
+}
+
+.btn-new {
+  text-align: center;
+}
+
+.btn {
+  margin: 3px;
+  width: 30%;
+  text-align: center;
+}
+
+.flash {
+  text-decoration: none;
+  color: 661731;
+}
+
+.flash li {
+  list-style-type: none;
+  text-align: center;
+}
