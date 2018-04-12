@@ -58,8 +58,7 @@ session.commit()
 
 
 categoryItem2 = CategoryItem(user_id=1, name="Shin Guards", description="Protect your shins from unwanted contact.",
-                             category=category2, date=datetime.date
-                             time.now())
+                             category=category2, date=datetime.datetime.now())
 
 session.add(categoryItem2)
 session.commit()
