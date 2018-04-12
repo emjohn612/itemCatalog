@@ -2,7 +2,7 @@
   A web application that displays a list of items from various categories
   Uses a third party authentication system that allows registered users to post, edit and delete their own items.
   Uses python's framework, flask, to develop this RESTful web application
-  
+
 ### What is needed
 
   python v2. or higher installed on computer
@@ -28,7 +28,7 @@ download/clone contents of the itemcatalog repository from github
 
     - Run the database_setup.py (this will create the database)
 
-    - Run lotsofitem.py (this will populate the database with a view items)
+    - Run lotsofitems.py (this will populate the database with a view items)
 
     - Run project.py (opens up the server)
 
