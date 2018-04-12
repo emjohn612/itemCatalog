@@ -226,11 +226,9 @@ def getUserInfo(user_id):
 
 
 def getUserID(email):
-    try:
-        user = session.query(User).filter_by(email=email).one()
-        return user.id
-    except:
-        return None
+    user = session.query(User).filter_by(email=email).one()
+    return user.id
+
 
 # DISCONNECT - Revoke a current user's token and reset their login_session
 
@@ -331,7 +329,10 @@ def editCategory(category_id):
     editedCategory = session.query(
         Category).filter_by(id=category_id).one()
     if editedCategory.user_id != login_session['user_id']:
-        return "<script>function myFunction() {alert('You are not authorized to edit this category. Please create your own category in order to edit.');}</script><body onload='myFunction()'>"
+        return "<script>function myFunction() \
+        {alert('You are not authorized to edit this category. \
+        Please create your own category in order to edit it.');} \
+        </script><body onload='myFunction()'>"
     if request.method == 'POST':
         if request.form['name']:
             editedCategory.name = request.form['name']
@@ -350,14 +351,18 @@ def deleteCategory(category_id):
     categoryToDelete = session.query(
         Category).filter_by(id=category_id).one()
     if categoryToDelete.user_id != login_session['user_id']:
-        return "<script>function myFunction() {alert('You are not authorized to delete this category. Please create your own category in order to delete.');}</script><body onload='myFunction()'>"
+        return "<script>function myFunction() \
+        {alert('You are not authorized to delete this category. \
+        Please create your own category in order to delete it.');} \
+        </script><body onload='myFunction()'>"
     if request.method == 'POST':
         session.delete(categoryToDelete)
         flash('"%s" Successfully Deleted' % categoryToDelete.name)
         session.commit()
         return redirect(url_for('showCategorys', category_id=category_id))
     else:
-        return render_template('deleteCategory.html', category=categoryToDelete)
+        return render_template('deleteCategory.html',
+                               category=categoryToDelete)
 
 
 # Show category items
@@ -370,7 +375,8 @@ def showItems(category_id):
     creator = getUserInfo(category.user_id)
     items = session.query(CategoryItem).filter_by(
         category_id=category_id).all()
-    if 'username' not in login_session or creator.id != login_session['user_id']:
+    if ('username' not in login_session or
+            creator.id != login_session['user_id']):
         return render_template('publicCategoryItems.html', items=items,
                                category=category, creator=creator)
     else:
@@ -386,7 +392,10 @@ def showItems(category_id):
 def newCategoryItem(category_id):
     category = session.query(Category).filter_by(id=category_id).one()
     if login_session['user_id'] != category.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to add a items to this category. Please create your own category in order to add items.');}</script><body onload='myFunction()'>"
+        return "<script>function myFunction() \
+        {alert('You are not authorized to add a items to this category. \
+        Please create your own category in order to add items.');} \
+        </script><body onload='myFunction()'>"
     if request.method == 'POST':
         newItem = CategoryItem(name=request.form['name'],
                                description=request.form['description'],
@@ -412,7 +421,10 @@ def editCategoryItem(category_id, item_id):
     editedItem = session.query(CategoryItem).filter_by(id=item_id).one()
     category = session.query(Category).filter_by(id=category_id).one()
     if login_session['user_id'] != category.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to edit items to this category. Please create your own category in order to add items.');}</script><body onload='myFunction()'>"
+        return "<script>function myFunction() \
+        {alert('You are not authorized to edit an item from this category. \
+        Please create your own category in order to edit items.');} \
+        </script><body onload='myFunction()'>"
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
@@ -441,7 +453,10 @@ def deleteCategoryItem(category_id, item_id):
     category = session.query(Category).filter_by(id=category_id).one()
     itemToDelete = session.query(CategoryItem).filter_by(id=item_id).one()
     if login_session['user_id'] != category.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to delete items from this category. Please create your own category in order to delete items.');}</script><body onload='myFunction()'>"
+        return "<script>function myFunction() \
+        {alert('You are not authorized to delete items from this category. \
+        Please create your own category in order to delete items.');} \
+        </script><body onload='myFunction()'>"
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
